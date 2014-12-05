@@ -1,57 +1,42 @@
-Node-RED Install
+EHF-Node-RED Install
 ================
 
-## Install node.js
+## Install Node.js
 
-You can get the latest version from <http://nodejs.org/download/>.
+You can get the latest source code from <http://nodejs.org/download/>
+and build it.
 
-Or, you may want to use a version from your operating system's package manager:
- <https://github.com/joyent/node/wiki/Installing-Node.js-via-package-manager>
+You can also get a Node.js ported for Tizen from <https://github.com/Tizen-Sunfish/nodejs-tizen>.
 
-## Get Node-RED
+## Get EHF-Node-RED
 
 Clone the repository from GitHub:
 
-    $ git clone git@github.com:node-red/node-red.git
+    $ git clone git@github.com:Tizen-Sunfish/ehf-node-red.git
 
-## Install the pre-requisite modules
+## Connect your Tizen device to host PC via USB
 
-From the top-level directory of Node-RED, run:
+Verify SDB connection before running install script:
 
-    $ npm install
+    $ sdb devices
 
-This will install the core pre-requisite modules.
+## Run the install script
+
+This script installs EHF-Node-RED on the target device. It also add EHF-Node-RED to systemd as a start-up service.
+This process can be time-consuming due to slow speed of Wi-fi connection of target board.
+
+    $ ./install.sh
+
+If you want not to add it as start-up service, use it:
+
+    $ ./install.sh --without-startup
 
 ## Run Node-RED
 
-From the top-level directory, run:
+Run below command on Tizen device:
 
-    $ node red.js
+    $ node /usr/lib/node_modules/node-red/red.js
 
-You can then access Node-RED at <http://localhost:1880>.
+You can then access Node-RED at <http://localhost:1880> on web browser application.
 
-Online documentation is available at <http://nodered.org/docs>.
-
-## Installing individual node dependencies
-
-When Node-RED starts, it attempts to load the nodes from the `nodes/` directory.
-Each will have its own set of dependencies that will need to be installed before
-the node is available in the palette.
-
-To help identify the dependencies, Node-RED logs any modules it fails to find
-for a particular node. You don't have to install these unless you want or need
-that node to appear.
-
-Alternatively, a node's `.js` file can be examined to identify the modules it
-explicitly requires. For example, the Twitter node is defined in
-`nodes/social/27-twitter.js` and contains:
-
-	var RED = require("../../red/red");
-	var ntwitter = require('ntwitter');
-	var OAuth= require('oauth').OAuth;
-
-Of these, `ntwitter` and `oauth` are neither built-in modules nor ones provided
-by Node-RED itself. They can subsequently be installed by running:
-
-    $ npm install ntwitter oauth
-
+More documentation can be found [here](http://nodered.org/docs).

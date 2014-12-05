@@ -8,3 +8,4 @@ nodes/node-red-nodes/
 /coverage
 .config.json
 *.swp
+*.tar.gz
