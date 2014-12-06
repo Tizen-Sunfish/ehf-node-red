@@ -1,0 +1,53 @@
+<!-- The content of the edit dialog                       -->
+
+<script type="text/x-red" data-template-name="motor">
+    <div class="form-row">
+        <label for="node-input-motorid"><i class="fa fa-tasks"></i> Motor ID</label>
+        <input type="text" id="node-input-motorid" placeholder="required, 0~2">
+    </div>
+    <div class="form-row">
+        <label for="node-input-power"><i class="fa fa-tasks"></i> Power</label>
+        <input type="text" id="node-input-power" placeholder="required, -100~100">
+    </div>
+    <br/>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+
+<!-- Simple help text for the node.                   -->
+<script type="text/x-red" data-help-name="motor">
+	<p>It changes the state of Mindstorm motor. It can only control <b>single motor</b>.</p>
+	<p>If <b>motorid</b> or <b>power</b> is given by <b>msg.motorid</b> or <b>msg.power</b>, the value will be overrided.</p>
+</script>
+
+<!-- The node type registered along with all of its properties   -->
+<script type="text/javascript">
+    RED.nodes.registerType('motor',{
+        category: 'mindstorm',      // the palette category
+        defaults: {             // defines the editable properties of the node
+            name: {value:""},   //  along with default values.
+            motorid: {value:"", required:true},
+            power: {value:"", required:true}
+        },
+        inputs:1,               // set the number of inputs - only 0 or 1
+
+				// label
+				color: "#F5A9A9",
+        icon: "motor.png",     // saved in  icons/myicon.png
+				align: "right",
+        label: function() {     // sets the default label contents
+						if(this.name)
+							return this.name;
+						else if(this.power)
+	            return "motor" + this.motorid + "("+ this.power +")";
+						else
+							return "motor" + this.motorid;
+        },
+        labelStyle: function() { // sets the class to apply to the label
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>

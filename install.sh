@@ -1,5 +1,6 @@
 #!/bin/bash
 SERVICE_FILE=ehf-node-red.service
+rm -rf node_modules	
 tar -cvzf ehf-node-red.tar.gz ./*
 sdb root on
 sdb push ehf-node-red.tar.gz /

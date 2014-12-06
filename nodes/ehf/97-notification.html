@@ -1,0 +1,47 @@
+<!-- The content of the edit dialog                       -->
+
+<script type="text/x-red" data-template-name="notification">
+    <div class="form-row">
+        <label for="node-input-notificationid"><i class="fa fa-tasks"></i> Notification ID</label>
+        <input type="text" id="node-input-notificationid" placeholder="required, 0~2">
+    </div>
+    <div class="form-row">
+        <label for="node-input-power"><i class="fa fa-tasks"></i> Power</label>
+        <input type="text" id="node-input-power" placeholder="required, -100~100">
+    </div>
+    <br/>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+
+<!-- Simple help text for the node.                   -->
+<script type="text/x-red" data-help-name="notification">
+	<p>Messages will be driven from Tizen notification center to next nodes.</p>
+</script>
+
+<!-- The node type registered along with all of its properties   -->
+<script type="text/javascript">
+    RED.nodes.registerType('notification',{
+        category: 'tizen',      // the palette category
+        defaults: {             // defines the editable properties of the node
+            name: {value:""},   //  along with default values.
+            notificationid: {value:"", required:true},
+            power: {value:"", required:true}
+        },
+        outputs:1,               // set the number of outputs - only 0 to n
+
+				// label
+				color: "#F5A9A9",
+        icon: "notification.png",     // saved in  icons/myicon.png
+				align: "right",
+        label: function() {     // sets the default label contents
+						return "noti..."
+        },
+        labelStyle: function() { // sets the class to apply to the label
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
