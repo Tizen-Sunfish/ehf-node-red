@@ -11,27 +11,36 @@ module.exports = function(RED) {
         // Create a RED node
         RED.nodes.createNode(this,n);
 
-				this.filename = "/usr/share/nodejs/ehf_notification.tail";
+				var filename = "/usr/share/nodejs/ehf_notification.tail";
 				var node = this;
 
 				// Remove the tail file
-				fs.unlink(this.filename, function (err) {
-					if(err) console.log("error on unlinking notification tail file :" + err);
-
+				fs.unlink(filename, function (err) {
 					// Listen the tail file and pass it to next node
-					var tail = spawn("tail", ["-F", "-n", "0", this.filename]);
+					var tail = spawn("tail", ["-F", "-n", "0", filename]);
 					tail.stdout.on("data", function (data) {
 						var strings = data.toString().split("\n");
+						var title = "<None>";
+						var contents = "<None>";
+						var led_argb = "0";
 						for (var s in strings) {
 							if (strings[s] !== "") {
-								var tokens = s.split(" ");
-								if(tokens.length >= 3) {
-									if (strings[s] !== "") {
+								var tokens = strings[s].split("___ ", 2);
+								if(tokens.length >= 2) {
+									if(tokens[0] == "0") {
+										title = tokens[1];
+									} else if(tokens[0] == "1") {
+										contents = tokens[1];
+									} else if(tokens[0] == "2") {
+										led_argb = tokens[1];
 										node.send({
-											title: tokens[0],
-											contents: token[1],
-											led_argb: token[2]
+											title: title,
+											contents: contents,
+											led_argb: led_argb 
 										});
+										title = "<None>";
+										contents = "<None>";
+										led_argb = "0";
 									}
 								}
 							}

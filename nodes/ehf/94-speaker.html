@@ -1,0 +1,57 @@
+<!-- The content of the edit dialog                       -->
+
+<script type="text/x-red" data-template-name="speaker">
+		<div class="form-row node-input-soundvalue">
+				<label for="node-input-soundvalue"><i class="fa fa-envelope"></i> Color</label>
+				<select id="node-input-soundvalue" style="width:125px !important">
+					<option value="beep">Beep</option>
+					<option value="play_kakao">Kakaotalk</option>
+				</select>
+		</div>
+    <br/>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+
+<!-- Simple help text for the node.                   -->
+<script type="text/x-red" data-help-name="speaker">
+	<p>It changes the state of Mindstorm speaker. It can only control <b>single speaker</b>.</p>
+	<p>if <b>soundvalue</b> is given by <b>msg.soundvalue</b>, the value will be overrided.</p>
+</script>
+
+<!-- The node type registered along with all of its properties   -->
+<script type="text/javascript">
+    RED.nodes.registerType('speaker',{
+        category: 'mindstorm',      // the palette category
+        defaults: {
+            name: {value:""},
+            // portnum: {value:"", required:true},
+            soundvalue: {value:"beep", required:true}
+        },
+        inputs:1,               // set the number of inputs - only 0 or 1
+
+				// label
+				color: "#f2d0ff",
+        icon: "speaker.png",     // saved in  icons/myicon.png
+				align: "right",
+        label: function() {     // sets the default label contents
+						if(this.name)
+							return this.name;
+						else {
+							var soundstr = "";
+							if(this.soundvalue == "beep") {
+								soundstr = "beep";
+							} else if(this.soundvalue == "play_kakao") {
+								soundstr = "kakaotalk";
+							}
+							return "speaker(" + soundstr + ")";
+						}
+        },
+        labelStyle: function() { // sets the class to apply to the label
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>

@@ -8,11 +8,11 @@
 		<div class="form-row node-input-colorvalue">
 				<label for="node-input-colorvalue"><i class="fa fa-envelope"></i> Color</label>
 				<select id="node-input-colorvalue" style="width:125px !important">
-					<option value="0">All</option>
-					<option value="1">Red</option>
-					<option value="2">Green</option>
-					<option value="3">Blue</option>
-					<option value="4">None</option>
+					<option value="color_all">All</option>
+					<option value="red">Red</option>
+					<option value="green">Green</option>
+					<option value="blue">Blue</option>
+					<option value="color_off">None</option>
 				</select>
 		</div>
     <br/>
@@ -38,7 +38,7 @@
         defaults: {
             name: {value:""},
             // portnum: {value:"", required:true},
-            colorvalue: {value:"0", required:true}
+            colorvalue: {value:"color_all", required:true}
         },
         inputs:1,               // set the number of inputs - only 0 or 1
 
@@ -51,15 +51,15 @@
 							return this.name;
 						else {
 							var colorstr = "";
-							if(this.colorvalue == "0") {
+							if(this.colorvalue == "color_all") {
 								colorstr = "all";
-							} else if(this.colorvalue == "1") {
+							} else if(this.colorvalue == "red") {
 								colorstr = "red";
-							} else if(this.colorvalue == "2") {
+							} else if(this.colorvalue == "green") {
 								colorstr = "green";
-							} else if(this.colorvalue == "3") {
+							} else if(this.colorvalue == "blue") {
 								colorstr = "blue";
-							} else if(this.colorvalue == "4") {
+							} else if(this.colorvalue == "color_off") {
 								colorstr = "none";
 							}
 							return "lamp(" + colorstr + ")";

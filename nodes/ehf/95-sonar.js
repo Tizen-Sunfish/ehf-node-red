@@ -14,7 +14,7 @@ module.exports = function(RED) {
 				this.period = n.period;
 
 				// Command for starting to listen sonar sensor's values
-				var command = '/usr/bin/mindstorm_send sonar start';
+				var command = '/usr/bin/mindstorm_send sonar_set';
 				exec(command, function(err, stdout, stderr) {
 					if(err) {
 						console.log('child process exited with error code', err.code);
@@ -23,16 +23,14 @@ module.exports = function(RED) {
 					console.log(stdout);
 				});
 
-				this.filename = "/usr/share/nodejs/ehf_sonar.tail";
+				var filename = "/usr/share/nodejs/ehf_sonar.tail";
 				var node = this;
 				var polling = true;
 
 				// Remove the tail file
-				fs.unlink(this.filename, function (err) {
-					if(err) console.log("error on unlinking sonar tail file :" + err);
-
+				fs.unlink(filename, function (err) {
 					// Periodic command for polling sonar sensor's values
-					var command = '/usr/bin/mindstorm_send sonar poll';
+					var command = '/usr/bin/mindstorm_send sonar_read';
 					setInterval(function() {
 						if(polling == false) {
 							clearInterval();
@@ -48,7 +46,7 @@ module.exports = function(RED) {
 					}, this.period);
 
 					// Listen the tail file and pass it to next node
-					var tail = spawn("tail", ["-F", "-n", "0", this.filename]);
+					var tail = spawn("tail", ["-F", "-n", "0", filename]);
 					tail.stdout.on("data", function (data) {
 						var strings = data.toString().split("\n");
 						for (var s in strings) {
@@ -73,14 +71,14 @@ module.exports = function(RED) {
 						polling = false;
 
 						// Command for stopping to listen sonar sensor's values
-						var command = '/usr/bin/mindstorm_send sonar end';
-						exec(command, function(err, stdout, stderr) {
-							if(err) {
-								console.log('child process exited with error code', err.code);
-								return;
-							}
-							console.log(stdout);
-						});
+//						var command = '/usr/bin/mindstorm_send sonar end';
+//						exec(command, function(err, stdout, stderr) {
+//							if(err) {
+//								console.log('child process exited with error code', err.code);
+//								return;
+//							}
+//							console.log(stdout);
+//						});
 					}
 				});
     }
