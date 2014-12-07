@@ -328,12 +328,12 @@ span.logo img {
     -moz-box-sizing: border-box;    
    background:#d9d9d9;
    border-radius: 3px;
-   width: 10px;
-   height: 10px;
+   width: 15px;
+   height: 15px;
    border: 1px solid #999;
 }
 .palette_port_output {
-    left:85px;
+    left:84px;
 }
 
 .palette_node:hover .palette_port {
@@ -511,6 +511,8 @@ span.logo img {
 
 }
 .port {
+	 width: 15px;
+	 height: 15px;
    stroke: #999;
    stroke-width: 2;
    fill: #ddd;
@@ -518,6 +520,8 @@ span.logo img {
 }
 
 .port_highlight {
+	 width: 15px;
+	 height: 15px;
    stroke: #6DA332;
    stroke-width: 3;
    fill: #fff;
