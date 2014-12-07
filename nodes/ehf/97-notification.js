@@ -14,9 +14,11 @@ module.exports = function(RED) {
 				this.filename = "/usr/share/nodejs/ehf_notification.tail";
 				var node = this;
 
+				// Remove the tail file
 				fs.unlink(this.filename, function (err) {
 					if(err) console.log("error on unlinking notification tail file :" + err);
 
+					// Listen the tail file and pass it to next node
 					var tail = spawn("tail", ["-F", "-n", "0", this.filename]);
 					tail.stdout.on("data", function (data) {
 						var strings = data.toString().split("\n");
@@ -43,6 +45,7 @@ module.exports = function(RED) {
 				});
 
 				this.on("close", function() {
+					// Stop to listen the tail file
 					if (tail) { tail.kill(); }
 				});
 

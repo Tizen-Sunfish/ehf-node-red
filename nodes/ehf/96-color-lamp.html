@@ -1,0 +1,76 @@
+<!-- The content of the edit dialog                       -->
+
+<script type="text/x-red" data-template-name="colorlamp">
+    <!--<div class="form-row">
+        <label for="node-input-portnum"><i class="fa fa-tasks"></i> Port #</label>
+        <input type="text" id="node-input-portnum" placeholder="required, 0~2">
+		</div>-->
+		<div class="form-row node-input-colorvalue">
+				<label for="node-input-colorvalue"><i class="fa fa-envelope"></i> Color</label>
+				<select id="node-input-colorvalue" style="width:125px !important">
+					<option value="0">All</option>
+					<option value="1">Red</option>
+					<option value="2">Green</option>
+					<option value="3">Blue</option>
+					<option value="4">None</option>
+				</select>
+		</div>
+    <br/>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+
+<!-- Simple help text for the node.                   -->
+<script type="text/x-red" data-help-name="colorlamp">
+	<p>It changes the state of Mindstorm color lamp. It can only control <b>single color lamp</b>.</p>
+	<p>Port number of color lamp is fixed as 2.</p>
+	<p>if <b>colorvalue</b> is given by <b>msg.colorvalue</b>, the value will be overrided.</p>
+	<!--<p>if <b>portnum</b> or <b>colorvalue</b> is given by <b>msg.portnum</b> or <b>msg.colorvalue</b>, the value will be overrided.</p> -->
+</script>
+
+<!-- The node type registered along with all of its properties   -->
+<script type="text/javascript">
+    RED.nodes.registerType('colorlamp',{
+        category: 'mindstorm',      // the palette category
+        defaults: {
+            name: {value:""},
+            // portnum: {value:"", required:true},
+            colorvalue: {value:"0", required:true}
+        },
+        inputs:1,               // set the number of inputs - only 0 or 1
+
+				// label
+				color: "#f5fece",
+        icon: "colorlamp.png",     // saved in  icons/myicon.png
+				align: "right",
+        label: function() {     // sets the default label contents
+						if(this.name)
+							return this.name;
+						else {
+							var colorstr = "";
+							if(this.colorvalue == "0") {
+								colorstr = "all";
+							} else if(this.colorvalue == "1") {
+								colorstr = "red";
+							} else if(this.colorvalue == "2") {
+								colorstr = "green";
+							} else if(this.colorvalue == "3") {
+								colorstr = "blue";
+							} else if(this.colorvalue == "4") {
+								colorstr = "none";
+							}
+							return "lamp(" + colorstr + ")";
+						}
+//						if(this.name)
+//							return this.name;
+//						else
+//							return "lamp" + this.portnum;
+        },
+        labelStyle: function() { // sets the class to apply to the label
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
