@@ -23,6 +23,7 @@ module.exports = function(RED) {
 				this.angle = msg.angle;
 			var exec = require('child_process').exec;
 			var command = '/usr/bin/mindstorm_send motor ' + this.portnum + ' ' + this.power + ' ' + this.angle;
+			console.log(command);
 			exec(command, function(err, stdout, stderr) {
 				if(err) {
 					console.log('child process exited with error code', err.code);
