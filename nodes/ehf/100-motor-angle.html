@@ -1,0 +1,58 @@
+<!-- The content of the edit dialog                       -->
+
+<script type="text/x-red" data-template-name="motorangle">
+    <div class="form-row">
+        <label for="node-input-portnum"><i class="fa fa-tasks"></i> Port #</label>
+        <input type="text" id="node-input-portnum" placeholder="required, 0~2">
+    </div>
+    <div class="form-row">
+        <label for="node-input-power"><i class="fa fa-tasks"></i> Power</label>
+        <input type="text" id="node-input-power" placeholder="required, -100~100">
+    </div>
+    <div class="form-row">
+        <label for="node-input-angle"><i class="fa fa-tasks"></i> Power</label>
+        <input type="text" id="node-input-angle" placeholder="required, -5~5">
+    </div>
+    <br/>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+
+<!-- Simple help text for the node.                   -->
+<script type="text/x-red" data-help-name="motorangle">
+	<p>It changes the state of Mindstorm motor. It can only control <b>single motor</b>.</p>
+	<p>If <b>portnum</b>, <b>power</b> or <b>angle</b> is given by <b>msg.portnum</b>, <b>msg.power</b> or <b>msg.angle</b>, the value will be overrided.</p>
+</script>
+
+<!-- The node type registered along with all of its properties   -->
+<script type="text/javascript">
+    RED.nodes.registerType('motorangle',{
+        category: 'mindstorm',      // the palette category
+        defaults: {             // defines the editable properties of the node
+            name: {value:""},   //  along with default values.
+            portnum: {value:"", required:true},
+            power: {value:"", required:true},
+            angle: {value:"", required:true}
+        },
+        inputs:1,               // set the number of inputs - only 0 or 1
+
+				// label
+				color: "#BCF5A9",
+        icon: "motor.png",     // saved in  icons/myicon.png
+				align: "right",
+        label: function() {     // sets the default label contents
+						if(this.name)
+							return this.name;
+						else if(this.power)
+	            return "motor" + this.portnum + "("+ this.power +")";
+						else
+							return "motor" + this.portnum;
+        },
+        labelStyle: function() { // sets the class to apply to the label
+            return this.name?"node_label_italic":"";
+        }
+    });
+</script>
