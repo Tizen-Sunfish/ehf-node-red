@@ -19,7 +19,7 @@ module.exports = function(RED) {
 			if(msg.colorvalue)
 				this.colorvalue = msg.colorvalue;
 			var exec = require('child_process').exec;
-			var command = '/usr/bin/mindstorm_send' + this.colorvalue;
+			var command = '/usr/bin/mindstorm_send ' + this.colorvalue;
 			exec(command, function(err, stdout, stderr) {
 				if(err) {
 					console.log('child process exited with error code', err.code);

@@ -16,7 +16,7 @@ module.exports = function(RED) {
 			if(msg.soundvalue)
 				this.soundvalue = msg.soundvalue;
 			var exec = require('child_process').exec;
-			var command = '/usr/bin/mindstorm_send' + this.soundvalue;
+			var command = '/usr/bin/mindstorm_send ' + this.soundvalue;
 			exec(command, function(err, stdout, stderr) {
 				if(err) {
 					console.log('child process exited with error code', err.code);
