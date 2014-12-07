@@ -2,33 +2,50 @@
 
 module.exports = function(RED) {
     "use strict";
+		var spawn = require('child_process').spawn;
+	  var plat = require('os').platform();
+		var fs = require('fs');
 
     // The main node definition - most things happen in here
     function NotificationNode(n) {
         // Create a RED node
         RED.nodes.createNode(this,n);
 
-        // Store local copies of the node configuration (as defined in the .html)
-        this.notificationid = n.notificationid;
-				this.power = n.power;
+				this.filename = "/usr/share/nodejs/ehf_notification.tail";
+				var node = this;
 
-        // respond to inputs....
-        this.on('input', function (msg) {
-						this.notificationid = msg.notificationid;
-						this.power = msg.power;
-						var exec = require('child_process').exec;
-						var command = '/usr/bin/mindstorm_send notification ' + this.notificationid + ' ' + this.power;
-						exec(command, function(err, stdout, stderr) {
-							if(err) {
-								console.log('child process exited with error code', err.code);
-								return;
+				fs.unlink(this.filename, function (err) {
+					if(err) console.log("error on unlinking notification tail file :" + err);
+
+					var tail = spawn("tail", ["-F", "-n", "0", this.filename]);
+					tail.stdout.on("data", function (data) {
+						var strings = data.toString().split("\n");
+						for (var s in strings) {
+							if (strings[s] !== "") {
+								var tokens = s.split(" ");
+								if(tokens.length >= 3) {
+									if (strings[s] !== "") {
+										node.send({
+											title: tokens[0],
+											contents: token[1],
+											led_argb: token[2]
+										});
+									}
+								}
 							}
-							console.log(stdout);
-						});
-        });
+						}
+					});
+				});
 
-        this.on("close", function() {
-        });
+
+				tail.stderr.on("data", function(data) {
+					node.warn(data.toString());
+				});
+
+				this.on("close", function() {
+					if (tail) { tail.kill(); }
+				});
+
     }
 
     // Register the node by name. This must be called before overriding any of the
